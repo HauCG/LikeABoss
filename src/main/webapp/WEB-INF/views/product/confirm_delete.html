@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/product/layout :: header">
     <title>Xác nhận xóa sản phẩm</title>
 </head>
 <body>
@@ -12,5 +13,7 @@
 </form>
 
 <a th:href="@{/products}">Quay lại danh sách sản phẩm</a>
+<footer th:replace="/product/layout :: footer"></footer>
 </body>
 </html>
+

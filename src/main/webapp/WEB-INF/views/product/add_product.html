@@ -1,12 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/product/layout :: header">
   <title>Thêm sản phẩm mới</title>
 </head>
+<!--<body>-->
+<!--<h1>Thêm sản phẩm mới</h1>-->
+
+<!--<form th:action="@{/products/add}" th:object="${product}" method="POST"  enctype="multipart/form-data">-->
+<!--  <label for="name">Tên sản phẩm:</label>-->
+<!--  <input type="text" id="name" th:field="*{name}" required><br>-->
+
+<!--  <label for="price">Giá sản phẩm:</label>-->
+<!--  <input type="text" id="price" th:field="*{price}" required><br>-->
+
+<!--  <label for="description">Mô tả:</label>-->
+<!--  <textarea id="description" th:field="*{description}" required></textarea><br>-->
+
+<!--  <label for="image">Image:</label>-->
+<!--  <input type="file" id="image" name="image" required>-->
+
+<!--&lt;!&ndash;&lt;!&ndash;  accept="image/*"&ndash;&gt; validate kiểu file đoán thế&ndash;&gt;-->
+
+<!--  <button type="submit">Thêm sản phẩm</button>-->
+<!--</form>-->
+
+<!--<footer th:replace="/product/layout :: footer"></footer>-->
+<!--<a th:href="@{/products}">Quay lại danh sách sản phẩm</a>-->
+<!--</body>-->
+
+
 <body>
 <h1>Thêm sản phẩm mới</h1>
 
-<form th:action="@{/products/add}" th:object="${product}" method="POST">
+<!-- Success Message -->
+<div th:if="${successMessage}" class="success-message">
+  <p th:text="${successMessage}"></p>
+</div>
+
+<!-- Error Message -->
+<div th:if="${errorMessage}" class="error-message">
+  <p th:text="${errorMessage}"></p>
+</div>
+
+<form th:action="@{/products/add}" th:object="${product}" method="POST" enctype="multipart/form-data">
   <label for="name">Tên sản phẩm:</label>
   <input type="text" id="name" th:field="*{name}" required><br>
 
@@ -16,12 +52,18 @@
   <label for="description">Mô tả:</label>
   <textarea id="description" th:field="*{description}" required></textarea><br>
 
-  <label for="imgLink">Link hình ảnh:</label>
-  <input type="text" id="imgLink" th:field="*{imgLink}" required><br>
+  <label for="image">Image:</label>
+  <input type="file" id="image" name="image" required>
 
   <button type="submit">Thêm sản phẩm</button>
 </form>
 
+<footer th:replace="/product/layout :: footer"></footer>
 <a th:href="@{/products}">Quay lại danh sách sản phẩm</a>
 </body>
+
+
 </html>
+
+
+

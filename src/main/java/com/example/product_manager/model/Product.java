@@ -5,14 +5,24 @@ public class Product {
     private String name;
     private double price;
     private String description;
-    private String imgLink;
+    private String ImgLink;
 
-    public Product(int id , String name, double price, String description, String imgLink) {
+
+    public Product(int id, String name, double price, String description, String ImgLink) {
+
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imgLink = imgLink;
+        this.ImgLink = ImgLink;
+    }
+
+    public String getImgLink() {
+        return ImgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        ImgLink = imgLink;
     }
 
     public Product() {
@@ -51,11 +61,4 @@ public class Product {
         this.description = description;
     }
 
-    public String getImgLink() {
-        return imgLink;
-    }
-
-    public void setImgLink(String imgLink) {
-        this.imgLink = imgLink;
-    }
 }

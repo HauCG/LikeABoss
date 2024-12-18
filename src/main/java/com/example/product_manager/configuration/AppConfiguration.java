@@ -3,11 +3,15 @@ package com.example.product_manager.configuration;
 import com.example.product_manager.service.ProductService;
 import com.example.product_manager.service.ProductServiceImpl;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,8 +22,12 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
 @EnableWebMvc
+@PropertySource("classpath:upload_file.properties")
 @ComponentScan("com.example.product_manager.controller")
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
+
+    @Value("${upload.path}")
+    private String upload;
 
     private ApplicationContext applicationContext;
 
@@ -71,5 +79,19 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
 
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/WEB-INF/images/");
+
+
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + upload);
+    }
+
+
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSizePerFile(52428800);
+        return resolver;
     }
 }

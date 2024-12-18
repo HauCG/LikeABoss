@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/product/layout :: header">
+  <title>Quản Lý Sản Phẩm</title>
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+
+<h3>Danh sách sản phẩm</h3>
+<a href="/products/add">Thêm sản phẩm mới</a>
+
+<form action="/products/search" method="get">
+  <input type="text" name="name" placeholder="Tìm kiếm sản phẩm">
+  <button type="submit">Tìm kiếm</button>
+</form>
+
+<p id="checkOn">css đang bật </p>
+<table border="1">
+  <thead>
+  <tr>
+    <th>Tên sản phẩm</th>
+    <th>Mô tả</th>
+    <th>Giá</th>
+    <th>Chi tiết</th>
+    <th>Chỉnh sửa</th>
+    <th>Xóa</th>
+  </tr>
+  </thead>
+  <tbody>
+  <th:block th:each="product : ${products}">
+    <tr>
+      <td th:text="${product.name}"></td>
+      <td th:text="${product.description}"></td>
+      <td th:text="${product.price}"></td>
+      <td><a th:href="@{'/products/' + ${product.id}}">Chi tiết</a></td>
+      <td><a th:href="@{'/products/edit/' + ${product.id}}">Chỉnh sửa</a></td>
+      <td><a th:href="@{'/products/delete/' + ${product.id}}">Xóa</a></td>
+    </tr>
+  </th:block>
+  </tbody>
+</table>
+
+<footer th:replace="/product/layout :: footer"></footer>
+
+</body>
+</html>
+

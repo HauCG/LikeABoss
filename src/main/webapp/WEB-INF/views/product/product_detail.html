@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chi tiết sản phẩm</title>
+</head>
+<body>
+<h1>Chi tiết sản phẩm</h1>
+<div>
+    <h3 th:text="${product.name}"></h3>
+    <p th:text="${product.description}"></p>
+    <p th:text="${product.price}"></p>
+    <img th:src="@{'/images/' + ${product.imgLink}}" alt="Ảnh sản phẩm">
+</div>
+<a href="/products">Quay lại danh sách sản phẩm</a>
+</body>
+</html>

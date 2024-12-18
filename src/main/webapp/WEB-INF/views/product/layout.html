@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hau_Store - Your Shopping Destination</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{../../css/styles.css}">
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body>
+<header class="header" th:fragment="header" >
+    <div class="header-content">
+        <a href="/" class="store-name">
+            <i class="fas fa-store"></i> Hau_Store
+        </a>
+        <nav>
+            <a th:href="@{/}" class="btn btn-primary">Trang chủ</a>
+            <a th:href="@{/products}" class="btn btn-primary">Sản phẩm</a>
+            <a th:href="@{/products/add}" class="btn btn-primary">Thêm sản phẩm</a>
+            <a th:href="@{/products/search}" class="btn btn-primary">Tìm kiếm</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <div th:replace="${content}">
+    </div>
+</main>
+
+<footer class="footer" th:fragment="footer" >
+    <div class="footer-content">
+        <p>&copy; 2024 Web của Hậu. Tất cả quyền được bảo lưu.</p>
+        <p>Designed with <i class="fas fa-heart" style="color: #ee4d2d;"></i> by Hau</p>
+    </div>
+</footer>
+</body>
+</html>
+
+

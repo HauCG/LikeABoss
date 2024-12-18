@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Xác nhận xóa sản phẩm</title>
+</head>
+<body>
+<h1>Xác nhận xóa sản phẩm</h1>
+<p>Bạn có chắc chắn muốn xóa sản phẩm <strong th:text="${product.name}"></strong>?</p>
+
+<form th:action="@{/products/delete/{id}(id=${product.id})}" method="POST">
+    <button type="submit">Xóa</button>
+</form>
+
+<a th:href="@{/products}">Quay lại danh sách sản phẩm</a>
+</body>
+</html>

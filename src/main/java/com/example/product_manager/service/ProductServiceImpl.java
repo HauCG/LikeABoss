@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final List<Product> products = new ArrayList<>();
-    private int currentId = 5;
+    private int currentId = 6;
 
     public ProductServiceImpl() {
         products.add(new Product(1, "Laptop", 1000.0, "Máy tính xách tay hiệu suất cao", "laptop.jpg"));

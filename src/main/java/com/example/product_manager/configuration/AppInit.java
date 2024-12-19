@@ -23,8 +23,8 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        MultipartConfigElement multipartConfigElement = new MultipartConfigElement("chưa có ");
+        String uploadPath = "C:\\Users\\maitr\\Downloads\\Product_Manager\\Product_Manager\\uploads";
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement(uploadPath, 10240000, 102400000, 0);
         registration.setMultipartConfig(multipartConfigElement);
-//        "C:\\Users\\User\\Documents\\Product_Manager\\uploads", 10240000, 102400000, 0));
     }
 }

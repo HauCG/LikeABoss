@@ -1,53 +1,332 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head th:replace="/product/layout :: header">-->
+<!--  <title>Quản Lý Sản Phẩm</title>-->
+<!--  <style>-->
+<!--    .search-bar {-->
+<!--      margin-bottom: 20px;-->
+<!--    }-->
+<!--    .search-input {-->
+<!--      width: 50%;-->
+<!--      height: 30px;-->
+<!--      padding: 10px;-->
+<!--      font-size: 16px;-->
+<!--      border: 1px solid #ccc;-->
+<!--    }-->
+<!--    .search-button {-->
+<!--      height: 30px;-->
+<!--      padding: 10px;-->
+<!--      font-size: 16px;-->
+<!--      background-color: #4CAF50;-->
+<!--      color: #fff;-->
+<!--      border: none;-->
+<!--      cursor: pointer;-->
+<!--    }-->
+<!--    .search-button:hover {-->
+<!--      background-color: #3e8e41;-->
+<!--    }-->
+<!--    .search-reset {-->
+<!--      margin-bottom: 20px;-->
+<!--    }-->
+<!--    .products-grid {-->
+<!--      display: grid;-->
+<!--      grid-template-columns: repeat(3, 1fr);-->
+<!--      grid-gap: 20px;-->
+<!--    }-->
+<!--    .product-card {-->
+<!--      border: 1px solid #ccc;-->
+<!--      padding: 20px;-->
+<!--      border-radius: 10px;-->
+<!--      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--    }-->
+<!--    .product-image-container {-->
+<!--      position: relative;-->
+<!--      display: block;-->
+<!--    }-->
+<!--    .product-image {-->
+<!--      width: 100%;-->
+<!--      height: 200px;-->
+<!--      object-fit: cover;-->
+<!--      border-radius: 10px 10px 0 0;-->
+<!--    }-->
+<!--    .product-overlay {-->
+<!--      position: absolute;-->
+<!--      top: 0;-->
+<!--      left: 0;-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      background-color: rgba(0, 0, 0, 0.5);-->
+<!--      color: #fff;-->
+<!--      padding: 20px;-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--      justify-content: center;-->
+<!--      align-items: center;-->
+<!--    }-->
+<!--    .product-name {-->
+<!--      font-size: 18px;-->
+<!--      font-weight: bold;-->
+<!--      margin-bottom: 10px;-->
+<!--    }-->
+<!--    .product-price {-->
+<!--      font-size: 16px;-->
+<!--      color: #666;-->
+<!--      margin-bottom: 10px;-->
+<!--    }-->
+<!--    .product-actions {-->
+<!--      display: flex;-->
+<!--      justify-content: space-between;-->
+<!--    }-->
+<!--    .action-button {-->
+<!--      background-color: #4CAF50;-->
+<!--      color: #fff;-->
+<!--      border: none;-->
+<!--      padding: 10px 20px;-->
+<!--      font-size: 16px;-->
+<!--      cursor: pointer;-->
+<!--    }-->
+<!--    .action-button:hover {-->
+<!--      background-color: #3e8e41;-->
+<!--    }-->
+<!--    .view-button {-->
+<!--      margin-right: 10px;-->
+<!--    }-->
+<!--    .edit-button {-->
+<!--      margin-right: 10px;-->
+<!--    }-->
+<!--    .delete-button {-->
+<!--      background-color: #e74c3c;-->
+<!--    }-->
+<!--    .delete-button:hover {-->
+<!--      background-color: #c0392b;-->
+<!--    }-->
+<!--    .add-product {-->
+<!--      margin-top: 20px;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h3>Danh sách sản phẩm</h3>-->
+
+<!--&lt;!&ndash; Search bar &ndash;&gt;-->
+<!--<div class="search-bar">-->
+<!--  <form action="/products/search" method="get">-->
+<!--    <input type="text" name="name" placeholder="Tìm kiếm sản phẩm" class="search-input">-->
+<!--    <button type="submit" class="search-button">-->
+<!--      <i class="fas fa-search"></i> Tìm kiếm-->
+<!--    </button>-->
+<!--  </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Reset search results &ndash;&gt;-->
+<!--<div class="search-reset" th:if="${param.name != null}">-->
+<!--  <button type="button" onclick="window.location.href='/products'" class="btn btn-primary">-->
+<!--    <i class="fas fa-undo"></i> Quay về danh sách ban đầu-->
+<!--  </button>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Products grid &ndash;&gt;-->
+<!--<div class="products-grid">-->
+<!--  <div class="product-card" th:each="product : ${products}">-->
+<!--    &lt;!&ndash; Image container with overlay &ndash;&gt;-->
+<!--    <a th:href="@{'/products/' + ${product.id}}" class="product-image-container">-->
+<!--      <img th:if="${product.imgLink}" th:src="${product.imgLink}" alt="Ảnh sản phẩm" class="product-image">-->
+<!--      <img th:unless="${product.imgLink}" src="/images/default-product.jpg" alt="Ảnh mặc định" class="product-image">-->
+<!--      -->
+<!--      &lt;!&ndash; Overlay with name and price &ndash;&gt;-->
+<!--      <div class="product-overlay">-->
+<!--        <h3 class="product-name" th:text="${product.name}"></h3>-->
+<!--        <div class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></div>-->
+<!--      </div>-->
+<!--    </a>-->
+<!--    -->
+<!--    &lt;!&ndash; Action buttons &ndash;&gt;-->
+<!--    <div class="product-actions">-->
+<!--      <a th:href="@{'/products/edit/' + ${product.id}}" class="action-button edit-button">-->
+<!--        <i class="fas fa-edit"></i> Sửa-->
+<!--      </a>-->
+<!--      <a th:href="@{'/products/delete/' + ${product.id}}" class="action-button delete-button">-->
+<!--        <i class="fas fa-trash"></i> Xóa-->
+<!--      </a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Add new product button &ndash;&gt;-->
+<!--<div class="add-product">-->
+<!--  <a href="/products/add" class="btn btn-primary">-->
+<!--    <i class="fas fa-plus"></i> Thêm sản phẩm mới-->
+<!--  </a>-->
+<!--</div>-->
+
+<!--<footer th:replace="/product/layout :: footer"></footer>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="/product/layout :: header">
   <title>Quản Lý Sản Phẩm</title>
+  <style>
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .search-input {
+      width: 50%;
+      height: 30px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+    .search-button {
+      height: 30px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .search-button:hover {
+      background-color: #3e8e41;
+    }
+    .search-reset {
+      margin-bottom: 20px;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
+    .product-card {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .product-image-container {
+      position: relative;
+      display: block;
+    }
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px 10px 0 0;
+    }
+    .product-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .product-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .product-price {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .product-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+    .action-button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .action-button:hover {
+      background-color: #3e8e41;
+    }
+    .view-button {
+      margin-right: 10px;
+    }
+    .edit-button {
+      margin-right: 10px;
+    }
+    .delete-button {
+      background-color: #e74c3c;
+    }
+    .delete-button:hover {
+      background-color: #c0392b;
+    }
+    .add-product {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
 <h3>Danh sách sản phẩm</h3>
-<a href="/products/add">Thêm sản phẩm mới</a>
 
-<form action="/products/search" method="get">
-  <input type="text" name="name" placeholder="Tìm kiếm sản phẩm">
-  <button type="submit">Tìm kiếm</button>
-</form>
-
-<div>
-  <button th:if="${param.name != null}" type="button" onclick="window.location.href='/products'">Quay về danh sách ban đầu</button>
+<!-- Thanh tìm kiếm -->
+<div class="search-bar">
+  <form action="/products/search" method="get">
+    <input type="text" name="name" placeholder="Tìm kiếm sản phẩm" class="search-input">
+    <button type="submit" class="search-button">
+      <i class="fas fa-search"></i> Tìm kiếm
+    </button>
+  </form>
+  <div class="add-product">
+    <a href="/products/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Thêm sản phẩm mới
+    </a>
+  </div>
 </div>
 
-<p id="checkOn">css đang bật </p>
-<table border="1">
-  <thead>
-  <tr>
-    <th>Hình ảnh</th>
-    <th>Tên sản phẩm</th>
-    <th>Mô tả</th>
-    <th>Giá</th>
-    <th>Chi tiết</th>
-    <th>Chỉnh sửa</th>
-    <th>Xóa</th>
-  </tr>
-  </thead>
-  <tbody>
-  <th:block th:each="product : ${products}">
-    <tr>
-      <td>TEST
-<!--        <img th:src="${product.imgLink}" alt="Product Image" style="width: 100px; height: 100px;">-->
-      </td>
-      <td th:text="${product.name}"></td>
-      <td th:text="${product.description}"></td>
-      <td th:text="${product.price}"></td>
-      <td><a th:href="@{'/products/' + ${product.id}}">Chi tiết</a></td>
-      <td><a th:href="@{'/products/edit/' + ${product.id}}">Chỉnh sửa</a></td>
-      <td><a th:href="@{'/products/delete/' + ${product.id}}">Xóa</a></td>
-    </tr>
-  </th:block>
-  </tbody>
-</table>
+<!-- Đặt lại kết quả tìm kiếm -->
+<div class="search-reset" th:if="${param.name != null}">
+  <button type="button" onclick="window.location.href='/products'" class="btn btn-primary">
+    <i class="fas fa-undo"></i> Quay về danh sách ban đầu
+  </button>
+</div>
+
+<!-- Lưới sản phẩm -->
+<div class="products-grid">
+  <div class="product-card" th:each="product : ${products}">
+    <!-- Container ảnh với overlay -->
+    <a th:href="@{'/products/' + ${product.id}}" class="product-image-container">
+      <img th:if="${product.imgLink}" th:src="${product.imgLink}" alt="Ảnh sản phẩm" class="product-image">
+      <img th:unless="${product.imgLink}" src="/images/default-product.jpg" alt="Ảnh mặc định" class="product-image">
+
+      <!-- Overlay với tên và giá -->
+      <div class="product-overlay">
+        <h3 class="product-name" th:text="${product.name}"></h3>
+        <div class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></div>
+      </div>
+    </a>
+
+    <!-- Nút hành động -->
+    <div class="product-actions">
+      <a th:href="@{'/products/edit/' + ${product.id}}" class="action-button edit-button">
+        <i class="fas fa-edit"></i> Sửa
+      </a>
+      <a th:href="@{'/products/delete/' + ${product.id}}" class="action-button delete-button">
+        <i class="fas fa-trash"></i> Xóa
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Nút thêm sản phẩm mới -->
+
 
 <footer th:replace="/product/layout :: footer"></footer>
-
 </body>
 </html>
-

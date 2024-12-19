@@ -3,13 +3,11 @@ package com.example.product_manager.configuration;
 import com.example.product_manager.service.ProductService;
 import com.example.product_manager.service.ProductServiceImpl;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,12 +20,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
 @EnableWebMvc
-@PropertySource("classpath:upload_file.properties")
-@ComponentScan("com.example.product_manager.controller")
+@ComponentScan("com.example.product_manager")
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
-
-    @Value("${upload.path}")
-    private String upload;
 
     private ApplicationContext applicationContext;
 
@@ -36,7 +30,7 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         this.applicationContext = applicationContext;
     }
 
-//    Thymeleaf
+    //    Thymeleaf
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -80,13 +74,11 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/WEB-INF/images/");
 
-
-
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:" + upload);
+        // Cấu hình cho thư mục uploads
+        String uploadPath = "file:C:/Users/maitr/Downloads/Product_Manager/Product_Manager/uploads/";
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations(uploadPath);
     }
-
-
 
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver getResolver() {

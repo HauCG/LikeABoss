@@ -3,7 +3,6 @@ package com.example.product_manager.controller;
 import com.example.product_manager.model.Product;
 import com.example.product_manager.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +17,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/products")
 public class MainController {
-
-    @Value("${upload.path}")
-    private String upload;
 
     @Autowired
     private ProductService productService;
@@ -66,30 +63,35 @@ public class MainController {
         }
 
         try {
-            // Ensure the upload directory exists
-            Path uploadDirPath = Paths.get(upload);
-            if (!Files.exists(uploadDirPath)) {
-                Files.createDirectories(uploadDirPath);
+            // Đảm bảo thư mục upload tồn tại
+            String uploadDir = "C:/Users/maitr/Downloads/Product_Manager/Product_Manager/uploads";
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
             }
 
-            // Get the file's original name and resolve the destination path
-            String fileName = file.getOriginalFilename();
-            Path destinationPath = uploadDirPath.resolve(fileName);
+            // Tạo tên file duy nhất để tránh trùng lặp
+            String originalFileName = file.getOriginalFilename();
+            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+            String fileName = UUID.randomUUID().toString() + fileExtension;
 
-            // Validate and save the file
-            if (!isImageFile(fileName)) {
+            // Validate và lưu file
+            if (!isImageFile(originalFileName)) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Invalid file type. Please upload an image file.");
                 return "redirect:/products/add";
             }
-            Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Set the image link and save the product
-            product.setImgLink("/image/" + fileName);
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Lưu đường dẫn tương đối vào database
+            product.setImgLink("/uploads/" + fileName);
             productService.addProduct(product);
 
             redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error uploading image: " + e.getMessage());
+            return "redirect:/products/add";
         }
 
         return "redirect:/products";
@@ -99,8 +101,6 @@ public class MainController {
         String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
         return Arrays.asList("jpg", "jpeg", "png", "gif", "bmp").contains(fileExtension);
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable int id, Model model) {

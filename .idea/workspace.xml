@@ -5,13 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8414dff-0149-426b-8b77-1e24cd5df4d1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/product_manager/model/ProductForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/product_manager/configuration/AppConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/product_manager/configuration/AppConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/product_manager/configuration/AppInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/product_manager/configuration/AppInit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/product_manager/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/product_manager/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/product_manager/service/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/product_manager/service/ProductServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/product_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/product_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/upload_file.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/upload_file.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/edit_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/edit_product.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/03b78300-833a-4e3b-8639-90e67c689d23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/167bc57a-d465-43ee-918a-54f0de65621c.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/76fd8f18-22c3-40dc-9bdd-68c6adf9a848.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/7b5fe66a-b648-4f0d-b5fc-1cbf2c591d05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/80455315-b295-4a46-927a-1b4b46807949.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/8689ca5d-eee1-4e8a-b0d7-3da8da329a5b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/8ead2183-093b-48d7-b8cc-c375520c1343.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/a42febfa-9785-4bc7-96da-21a795bb2725.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,23 +60,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Gradle.Build Product_Manager.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 9.0.97.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/maitr/Downloads/Product_Manager/Product_Manager/src/main/java/com/example/product_manager&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.Build Product_Manager.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Tomcat Server.Tomcat 9.0.97.executor": "Run",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/maitr/Downloads/Product_Manager/Product_Manager/src/main/java/com/example/product_manager",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\maitr\Downloads\Product_Manager\Product_Manager\src\main\java\com\example\product_manager" />
@@ -192,7 +204,9 @@
       <workItem from="1734488607102" duration="1203000" />
       <workItem from="1734489836459" duration="12725000" />
       <workItem from="1734530789983" duration="3519000" />
-      <workItem from="1734570640613" duration="319000" />
+      <workItem from="1734570640613" duration="612000" />
+      <workItem from="1734571311435" duration="6750000" />
+      <workItem from="1734580428267" duration="2093000" />
     </task>
     <servers />
   </component>

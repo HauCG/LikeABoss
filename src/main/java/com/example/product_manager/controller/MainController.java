@@ -64,13 +64,13 @@ public class MainController {
 
         try {
             // Đảm bảo thư mục upload tồn tại
-            String uploadDir = "C:/Users/maitr/Downloads/Product_Manager/Product_Manager/uploads";
+            String uploadDir = "C://Users/maitr/Downloads/images";
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-            // Tạo tên file duy nhất để tránh trùng lặp
+//             Tạo tên file duy nhất để tránh trùng lặp
             String originalFileName = file.getOriginalFilename();
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             String fileName = UUID.randomUUID().toString() + fileExtension;
@@ -85,7 +85,7 @@ public class MainController {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Lưu đường dẫn tương đối vào database
-            product.setImgLink("/uploads/" + fileName);
+            product.setImgLink("/images/" + fileName);
             productService.addProduct(product);
 
             redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");

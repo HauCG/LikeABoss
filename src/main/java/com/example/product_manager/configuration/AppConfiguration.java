@@ -3,6 +3,7 @@ package com.example.product_manager.configuration;
 import com.example.product_manager.service.ProductService;
 import com.example.product_manager.service.ProductServiceImpl;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -63,6 +64,10 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return new ProductServiceImpl();
     }
 
+
+
+    @Value("${file-upload}")
+    private String upload;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")
@@ -75,10 +80,22 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
                 .addResourceLocations("/WEB-INF/images/");
 
         // Cấu hình cho thư mục uploads
-        String uploadPath = "file:C:/Users/maitr/Downloads/Product_Manager/Product_Manager/uploads/";
-        registry.addResourceHandler("/uploads/**")
+        String uploadPath = "file:/C:/Users/maitr/Downloads/images/";
+        registry.addResourceHandler("/images/**")
                 .addResourceLocations(uploadPath);
+        System.out.println(uploadPath);
+
     }
+//
+//    @Value("${file-upload}")
+//    private String upload;
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/images/**")
+//                .addResourceLocations("file:" + "C:\\Users\\maitr\\Downloads\\images");
+//        System.out.println("C:\\Users\\maitr\\Downloads\\images");
+//    }
+
 
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver getResolver() {

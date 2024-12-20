@@ -1,76 +1,142 @@
 package com.example.product_manager.service;
 
 import com.example.product_manager.model.Product;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    private final List<Product> products = new ArrayList<>();
-    private int currentId = 6;
 
-    public ProductServiceImpl() {
-        products.add(new Product(1, "Laptop", 1000.0, "Máy tính xách tay hiệu suất cao", "laptop.jpg"));
-        products.add(new Product(2, "Smartphone", 500.0, "Điện thoại thông minh mới nhất", "smartphone.jpg"));
-        products.add(new Product(3, "iPhone 13", 800.0, "Điện thoại iPhone 13 chính hãng", "iphone13.jpg"));
-        products.add(new Product(4, "iPhone 15", 1100.0, "Điện thoại iPhone 15 chính hãng", "iphone15.jpg"));
-        products.add(new Product(5, "iPhone 16", 1200.0, "Điện thoại iPhone 16 chính hãng", "iphone16.jpg"));
+    private static SessionFactory sessionFactory;
+    private static EntityManager entityManager;
+
+    static {
+        try {
+            sessionFactory = new Configuration()
+                    .configure("hibernate.conf.xml")
+                    .buildSessionFactory();
+            entityManager = sessionFactory.createEntityManager();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void addProduct(Product product) {
-        product.setId(currentId++);
-        products.add(product);
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(product);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return products;
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            String queryStr = "SELECT p FROM Product p";
+            TypedQuery<Product> query = entityManager.createQuery(queryStr, Product.class);
+            List<Product> result = query.getResultList();
+            transaction.commit();
+            return result;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public Product getProductById(int id) {
-        return products.stream()
-                .filter(product -> product.getId() == id)
-                .findFirst()
-                .orElse(null);
+        try {
+            return entityManager.find(Product.class, (long) id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public boolean updateProduct(int id, Product updatedProduct) {
-        Optional<Product> existingProduct = products.stream()
-                .filter(p -> p.getId() == id)
-                .findFirst();
-        // kiểm tra product cũ có giá trị ko nếu có thì update  ko thì trả về update ko thành công
-        if (existingProduct.isPresent()) {
-            Product product = existingProduct.get();
-            product.setName(updatedProduct.getName());
-            product.setPrice(updatedProduct.getPrice());
-            product.setDescription(updatedProduct.getDescription());
-            product.setImgLink(updatedProduct.getImgLink());
-            return true;
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            
+            Product existingProduct = entityManager.find(Product.class, (long) id);
+            if (existingProduct != null) {
+                existingProduct.setName(updatedProduct.getName());
+                existingProduct.setPrice(updatedProduct.getPrice());
+                existingProduct.setDescription(updatedProduct.getDescription());
+                existingProduct.setImgLink(updatedProduct.getImgLink());
+                
+                entityManager.merge(existingProduct);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override
     public boolean deleteProduct(int id) {
-        return products.removeIf(product -> product.getId() == id);
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            
+            Product product = entityManager.find(Product.class, (long) id);
+            if (product != null) {
+                entityManager.remove(product);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public List<Product> searchProductsByName(String name) {
-        String nameLower = name.toLowerCase();
-        List<Product> result = new ArrayList<>();
-        // chuyển từ về chữ viết thường
-        for (Product product : products) {
-            if (product.getName().toLowerCase().contains(nameLower)) {
-                result.add(product);
-            }
+        try {
+            String queryStr = "SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(:name)";
+            TypedQuery<Product> query = entityManager.createQuery(queryStr, Product.class);
+            query.setParameter("name", "%" + name + "%");
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return result;
     }
 }

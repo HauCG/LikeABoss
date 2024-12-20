@@ -2,33 +2,192 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="/product/layout :: header">
     <title>Chỉnh sửa sản phẩm</title>
+    <style>
+        .edit-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .product-preview {
+            margin-bottom: 20px;
+        }
+        
+        .image-preview-container {
+            width: 100%;
+            max-width: 250px;
+            height: 200px;
+            position: relative;
+            margin-bottom: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: linear-gradient(rgba(0,0,0,0.7), transparent);
+            z-index: 1;
+        }
+        
+        .preview-name {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .preview-price {
+            color: #ee4d2d;
+            font-size: 1rem;
+            font-weight: 500;
+            background: white;
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+        
+        .edit-form {
+            background: white;
+            padding: 20px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #ee4d2d;
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #ee4d2d;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d73211;
+        }
+        
+        .btn-secondary {
+            background-color: #ffeee8;
+            color: #ee4d2d;
+            border: 1px solid #ee4d2d;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #ee4d2d;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<h1>Chỉnh sửa sản phẩm</h1>
+<div class="edit-container">
+    <h1>Chỉnh sửa sản phẩm</h1>
 
-<form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post">
-    <!-- Input ẩn để giữ ID -->
-    <input type="hidden" th:field="*{id}">
+    <!-- Product Preview -->
+    <div class="product-preview">
+        <div class="image-preview-container">
+            <img th:if="${product.imgLink}" th:src="${product.imgLink}" 
+                 alt="Ảnh sản phẩm" class="image-preview">
+            <img th:unless="${product.imgLink}" src="/images/default-product.jpg" 
+                 alt="Ảnh mặc định" class="image-preview">
+            <div class="image-overlay">
+                <div class="preview-name" th:text="${product.name}">Tên sản phẩm</div>
+                <div class="preview-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">
+                    Giá
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <label for="name">Tên sản phẩm:</label>
-    <input type="text" id="name" th:field="*{name}" required><br>
+    <!-- Edit Form -->
+    <form class="edit-form" th:action="@{/products/edit/{id}(id=${product.id})}" 
+          th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        
+        <div class="form-group">
+            <label for="name">Tên sản phẩm:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
 
-    <label for="price">Giá sản phẩm:</label>
-    <input type="text" id="price" th:field="*{price}" required><br>
+        <div class="form-group">
+            <label for="price">Giá sản phẩm:</label>
+            <input type="number" class="form-control" id="price" th:field="*{price}" required>
+        </div>
 
-    <label for="description">Mô tả:</label>
-    <textarea id="description" th:field="*{description}" required></textarea><br>
+        <div class="form-group">
+            <label for="description">Mô tả:</label>
+            <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+        </div>
 
-    <p>Ảnh Cũ: </p>
-    <img th:if="${product.imgLink}" th:src="${product.imgLink}" alt="Ảnh sản phẩm" class="product-image">
+        <div class="form-group">
+            <label for="image">Ảnh mới (để trống nếu không muốn thay đổi):</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <small class="form-text text-muted">Chỉ chấp nhận file ảnh (jpg, jpeg, png, gif)</small>
+        </div>
 
-    <label for="image">Ảnh mới:</label>
-    <input type="file" id="image" name="image" required>
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Cập nhật sản phẩm
+            </button>
+            <a th:href="@{/products}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </form>
+</div>
 
-    <button type="submit">Cập nhật sản phẩm</button>
-</form>
-
-<a th:href="@{/products}">Quay lại danh sách sản phẩm</a>
 <footer th:replace="/product/layout :: footer"></footer>
 </body>
 </html>

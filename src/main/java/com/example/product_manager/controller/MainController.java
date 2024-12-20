@@ -46,11 +46,6 @@ public class MainController {
         return "/product/add_product";
     }
 
-//    @PostMapping("/add")
-//    public String addProduct(@ModelAttribute("product") Product product) {
-//        productService.addProduct(product);
-//        return "redirect:/products";
-//    }
 
     @PostMapping("/add")
     public String addProduct(
@@ -110,13 +105,55 @@ public class MainController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable int id, @ModelAttribute Product updatedProduct) {
+    public String updateProduct(
+            @PathVariable int id,
+            @ModelAttribute Product updatedProduct,
+            @RequestParam(value = "image", required = false) MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+        
+        // Nếu có file ảnh mới được upload
+        if (file != null && !file.isEmpty()) {
+            try {
+                // Đảm bảo thư mục upload tồn tại
+                String uploadDir = "C://Users/maitr/Downloads/images";
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                // Tạo tên file duy nhất
+                String originalFileName = file.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String fileName = UUID.randomUUID().toString() + fileExtension;
+
+                // Validate và lưu file
+                if (!isImageFile(originalFileName)) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Invalid file type. Please upload an image file.");
+                    return "redirect:/products/edit/" + id;
+                }
+
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                // Lưu đường dẫn tương đối vào database
+                updatedProduct.setImgLink("/images/" + fileName);
+            } catch (IOException e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Error uploading image: " + e.getMessage());
+                return "redirect:/products/edit/" + id;
+            }
+        } else {
+            // Nếu không có file mới, giữ lại link ảnh cũ
+            Product existingProduct = productService.getProductById(id);
+            updatedProduct.setImgLink(existingProduct.getImgLink());
+        }
+
         boolean updated = productService.updateProduct(id, updatedProduct);
         if (updated) {
-            return "redirect:/products";
+            redirectAttributes.addFlashAttribute("successMessage", "Product updated successfully!");
         } else {
-            return "redirect:/products";
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update product.");
         }
+        return "redirect:/products";
     }
 
     @GetMapping("/delete/{id}")

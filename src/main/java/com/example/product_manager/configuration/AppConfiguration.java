@@ -86,15 +86,6 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         System.out.println(uploadPath);
 
     }
-//
-//    @Value("${file-upload}")
-//    private String upload;
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/images/**")
-//                .addResourceLocations("file:" + "C:\\Users\\maitr\\Downloads\\images");
-//        System.out.println("C:\\Users\\maitr\\Downloads\\images");
-//    }
 
 
     @Bean(name = "multipartResolver")

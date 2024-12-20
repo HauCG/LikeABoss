@@ -1,146 +1,146 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quản Lý Sản Phẩm</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .search-bar {
-            margin-bottom: 20px;
-        }
-        .search-input {
-            width: 50%;
-            height: 30px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-        }
-        .search-button {
-            height: 30px;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .search-button:hover {
-            background-color: #3e8e41;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 15px;
-            padding: 15px;
-        }
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .product-image-container {
-            width: 100%;
-            padding-top: 100%;
-            position: relative;
-            background: #f5f5f5;
-        }
-        .product-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-        }
-        .product-info {
-            padding: 15px;
-        }
-        .product-name {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-        .product-price {
-            font-size: 14px;
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        .admin-actions {
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-            background: #f8f9fa;
-        }
-        .btn-edit {
-            background-color: #3498db;
-            color: white;
-        }
-        .btn-delete {
-            background-color: #e74c3c;
-            color: white;
-        }
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .btn-add {
-            background-color: #2ecc71;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-add:hover {
-            background-color: #27ae60;
-            color: white;
-        }
-        .btn-add i {
-            font-size: 20px;
-        }
-    </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Quản Lý Sản Phẩm</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .search-input {
+      width: 50%;
+      height: 30px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+    .search-button {
+      height: 30px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .search-button:hover {
+      background-color: #3e8e41;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 15px;
+      padding: 15px;
+    }
+    .product-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .product-image-container {
+      width: 100%;
+      padding-top: 100%;
+      position: relative;
+      background: #f5f5f5;
+    }
+    .product-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+    }
+    .product-info {
+      padding: 15px;
+    }
+    .product-name {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .product-price {
+      font-size: 14px;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    .admin-actions {
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      background: #f8f9fa;
+    }
+    .btn-edit {
+      background-color: #3498db;
+      color: white;
+    }
+    .btn-delete {
+      background-color: #e74c3c;
+      color: white;
+    }
+    .header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .btn-add {
+      background-color: #2ecc71;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-add:hover {
+      background-color: #27ae60;
+      color: white;
+    }
+    .btn-add i {
+      font-size: 20px;
+    }
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="header-actions">
-            <h2>Danh sách sản phẩm</h2>
-            <a th:href="@{/products/add}" class="btn btn-add">
-                <i class="fas fa-plus"></i>
-                Thêm sản phẩm mới
-            </a>
-        </div>
-        
-        <div class="search-bar">
-            <form th:action="@{/products/search}" method="get" class="d-flex">
-                <input type="text" name="name" class="search-input" placeholder="Tìm kiếm sản phẩm...">
-                <button type="submit" class="search-button">Tìm kiếm</button>
-            </form>
-        </div>
+<div class="container mt-4">
+  <div class="header-actions">
+    <h2>Danh sách sản phẩm</h2>
+    <a th:href="@{/products/add}" class="btn btn-add">
+      <i class="fas fa-plus"></i>
+      Thêm sản phẩm mới
+    </a>
+  </div>
 
-        <div class="products-grid">
-            <div th:each="product : ${products}" class="product-card">
-                <div class="product-image-container">
-                    <img th:src="${product.imgLink}" alt="Product Image" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name" th:text="${product.name}">Tên sản phẩm</h3>
-                    <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">Giá</p>
-                </div>
-                <div class="admin-actions">
-                    <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-edit">Sửa</a>
-                    <a th:href="@{'/products/delete/' + ${product.id}}" 
-                       class="btn btn-delete"
-                       onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
-                </div>
-            </div>
-        </div>
+  <div class="search-bar">
+    <form th:action="@{/products/search}" method="get" class="d-flex">
+      <input type="text" name="name" class="search-input" placeholder="Tìm kiếm sản phẩm...">
+      <button type="submit" class="search-button">Tìm kiếm</button>
+    </form>
+  </div>
+
+  <div class="products-grid">
+    <div th:each="product : ${products}" class="product-card">
+      <div class="product-image-container">
+        <img th:src="${product.imgLink}" alt="Product Image" class="product-image">
+      </div>
+      <div class="product-info">
+        <h3 class="product-name" th:text="${product.name}">Tên sản phẩm</h3>
+        <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">Giá</p>
+      </div>
+      <div class="admin-actions">
+        <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-edit">Sửa</a>
+        <a th:href="@{'/products/delete/' + ${product.id}}"
+           class="btn btn-delete"
+           onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

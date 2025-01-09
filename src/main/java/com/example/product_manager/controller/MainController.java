@@ -80,7 +80,7 @@ public class MainController {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Lưu đường dẫn tương đối vào database
-            product.setImgLink("/images/" + fileName);
+            product.setImgLink("/product-images/" + fileName);
             productService.addProduct(product);
 
             redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
@@ -136,7 +136,7 @@ public class MainController {
                 Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
                 // Lưu đường dẫn tương đối vào database
-                updatedProduct.setImgLink("/images/" + fileName);
+                updatedProduct.setImgLink("/product-images/" + fileName);
             } catch (IOException e) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Error uploading image: " + e.getMessage());
                 return "redirect:/products/edit/" + id;

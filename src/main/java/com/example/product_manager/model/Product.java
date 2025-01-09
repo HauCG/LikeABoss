@@ -1,15 +1,10 @@
 package com.example.product_manager.model;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "products")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,25 +21,14 @@ public class Product {
     @Column(name = "img_link")
     private String imgLink;
 
-
     public Product() {
-
     }
 
     public Product(long id, String name, double price, String description, String imgLink) {
-
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imgLink = imgLink;
-    }
-
-    public String getImgLink() {
-        return imgLink;
-    }
-
-    public void setImgLink(String imgLink) {
         this.imgLink = imgLink;
     }
 
@@ -80,4 +64,11 @@ public class Product {
         this.description = description;
     }
 
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
 }

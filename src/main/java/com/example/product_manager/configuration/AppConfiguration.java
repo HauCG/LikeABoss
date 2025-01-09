@@ -36,7 +36,7 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views");
+        templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
@@ -76,15 +76,8 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/WEB-INF/js/");
 
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("/WEB-INF/images/");
-
-        // Cấu hình cho thư mục uploads
-        String uploadPath = "file:/C:/Users/maitr/Downloads/images/";
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations(uploadPath);
-        System.out.println(uploadPath);
-
+        registry.addResourceHandler("/product-images/**")
+                .addResourceLocations("file:C:/Users/maitr/Downloads/images/");
     }
 
 

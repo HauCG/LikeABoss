@@ -12,5 +12,6 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
         <mapping class="com.example.product_manager.model.Product"/>
+<!--        jpa thif ko canaf mapping -->
     </session-factory>
 </hibernate-configuration>

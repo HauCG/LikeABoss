@@ -1,11 +1,15 @@
 package com.example.product_manager.service;
 
 import com.example.product_manager.model.Product;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProductService {
     void addProduct(Product product);
+
+    String saveImage(MultipartFile file) throws IOException;
 
     List<Product> getAllProducts();
 
